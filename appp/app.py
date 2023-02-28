@@ -2,12 +2,13 @@ from flask import Flask, render_template, request, jsonify
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.metrics import mean_squared_error, r2_score
 #from prometheus_flask_exporter import PrometheusMetrics
 from prometheus_client import start_http_server, Summary, Counter, Info, make_wsgi_app
 import time
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 
 
 app = Flask(__name__)
@@ -19,8 +20,7 @@ REQUEST_COUNT = Counter('request_count', 'Total HTTP Requests', ['method', 'endp
 REQUEST_LATENCY = Summary('request_latency_ms', 'Request latency in milliseconds', ['method', 'endpoint', 'http_status'])
 
 
-
-df = pd.read_csv('../Anime_data.csv')
+df = pd.read_csv(r".\appp\Anime_data.csv")
 df = df.dropna(subset=["Title", "Genre", "Synopsis", "Type", "Producer", "Studio", "Rating"])
 
 features = ["Title", "Genre", "Synopsis", "Type", "Producer", "Studio"]
@@ -58,6 +58,8 @@ def model_pred(Title, Genre, Synopsis, Type, Producer, Studio):
     return rat_pred[0]
 
 
+
+
 @app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
@@ -71,9 +73,8 @@ def predict():
     Type = request.form['Type']
     Producer = request.form['Producer']
     Studio = request.form['Studio']
-    
-    rating = model_pred(Title, Genre, Synopsis, Type, Producer, Studio)
 
+    rating = model_pred(Title, Genre, Synopsis, Type, Producer, Studio)
 
 
     # Afficher le résultat de la prédiction à l'utilisateur
