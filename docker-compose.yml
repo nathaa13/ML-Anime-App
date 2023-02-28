@@ -1,24 +1,24 @@
 version: '3.8' 
-networks: 
- monitoring: 
-  driver: bridge 
-volumes: 
- prometheus_data: {}
- grafana_data: {}
+networks:
+  monitoring: 
+    driver: bridge 
+volumes:
+  prometheus_data: {}
+  grafana_data: {}
 
 
 services:
 
   myapp:
-      build: ./app
-      image: nathaaa13/anime_app:latest
-      container_name: anime_app
-      ports:
-        - "5000:5000"
-      expose:
-        - 5000
-      networks:
-        - monitoring
+    build: ./appp
+    image: nathaaa13/anime_app:latest
+    container_name: anime_app
+    ports:
+      - "5000:5000"
+    expose:
+      - 5000
+    networks:
+      - monitoring
 
   
   node-exporter:
@@ -26,21 +26,20 @@ services:
     container_name: node-exporter
     restart: unless-stopped
     volumes:
-    - /proc:/host/proc:ro
-    - /sys:/host/sys:ro
-    - /:/rootfs:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
     command:
-    - '--path.procfs=/host/proc'
-    - '--path.rootfs=/rootfs'
-    - '--path.sysfs=/host/sys'
-    - '--collector.filesystem.mount-points-exclude=\
-    ^/(sys|proc|dev|host|etc)($$|/)'
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=\^/(sys|proc|dev|host|etc)($$|/)'
     expose:
-    - 9100
+      - 9100
     ports: 
-    - 9100:9100 
+      - 9100:9100 
     networks:
-    - monitoring
+      - monitoring
 
 
   prometheus: 
@@ -48,20 +47,20 @@ services:
     container_name: prometheus 
     restart: unless-stopped 
     volumes: 
-    - ./prometheus.yml:/etc/prometheus/prometheus.yml 
-    - ./prometheus_data:/prometheus
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml 
+      - ./prometheus_data:/prometheus
     command:
-    - '--config.file=/etc/prometheus/prometheus.yml'
-    - '--storage.tsdb.path=/prometheus'
-    - '--web.console.libraries=/etc/prometheus/console_libraries'
-    - '--web.console.templates=/etc/prometheus/consoles'
-    - '--web.enable-lifecycle'
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
     ports: 
-    - 9090:9090
+      - 9090:9090
     expose:
-    - 9090
+      - 9090
     networks: 
-    - monitoring
+      - monitoring
 
 
 
