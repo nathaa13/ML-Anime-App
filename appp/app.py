@@ -12,12 +12,12 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 
 
 app = Flask(__name__)
-wsgi_app = make_wsgi_app()
+#wsgi_app = make_wsgi_app()
 
 
 # Define some metrics
-REQUEST_COUNT = Counter('request_count', 'Total HTTP Requests', ['method', 'endpoint', 'http_status'])
-REQUEST_LATENCY = Summary('request_latency_ms', 'Request latency in milliseconds', ['method', 'endpoint', 'http_status'])
+#REQUEST_COUNT = Counter('request_count', 'Total HTTP Requests', ['method', 'endpoint', 'http_status'])
+#REQUEST_LATENCY = Summary('request_latency_ms', 'Request latency in milliseconds', ['method', 'endpoint', 'http_status'])
 #metrics = PrometheusMetrics(app)
 
 
@@ -84,18 +84,6 @@ def predict():
     #return render_template('resultat.html', rating=jsonify({'rating':  Title + "404"}))
 
 
-
-# Add some middleware to measure the request metrics
-@app.before_request
-def before_request():
-    request.start_time = time.time()
-
-@app.after_request
-def after_request(response):
-    latency = time.time() - request.start_time
-    REQUEST_COUNT.labels(request.method, request.path, response.status_code).inc()
-    REQUEST_LATENCY.labels(request.method, request.path, response.status_code).observe(latency)
-    return response
 
 
 
