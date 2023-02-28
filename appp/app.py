@@ -20,7 +20,7 @@ REQUEST_COUNT = Counter('request_count', 'Total HTTP Requests', ['method', 'endp
 REQUEST_LATENCY = Summary('request_latency_ms', 'Request latency in milliseconds', ['method', 'endpoint', 'http_status'])
 
 
-df = pd.read_csv(r".\appp\Anime_data.csv")
+df = pd.read_csv(r"Anime_data.csv")
 df = df.dropna(subset=["Title", "Genre", "Synopsis", "Type", "Producer", "Studio", "Rating"])
 
 features = ["Title", "Genre", "Synopsis", "Type", "Producer", "Studio"]
