@@ -5,4 +5,4 @@ scikit_learn==1.2.1
 gensim==4.3.0
 nltk==3.8.1
 gunicorn
-prometheus_client
+prometheus_flask_exporter
