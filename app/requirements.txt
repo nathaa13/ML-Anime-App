@@ -1,0 +1,7 @@
+Flask==2.2.3
+pandas==1.5.3
+prometheus_flask_exporter==0.22.2
+scikit_learn==1.2.1
+gensim==4.3.0
+nltk==3.8.1
+gunicorn
