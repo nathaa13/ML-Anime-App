@@ -1,34 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>AnimeApp</title>
+	<title>Anime Form</title>
+	<style>
+		body {
+			background-color: #C0D9D9;
+			font-family: Georgia, serif;
+		}
+
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 50px;
+		}
+
+		form {
+			background-color: #FFFFFF;
+			padding: 20px;
+			border-radius: 10px;
+			box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+			width: 80%;
+		}
+
+		label {
+			display: block;
+			margin-bottom: 10px;
+		}
+
+		input[type="text"], select {
+			width: 100%;
+			padding: 10px;
+			border-radius: 5px;
+			border: none;
+			margin-bottom: 20px;
+		}
+
+		input[type="submit"] {
+			background-color: #00BFFF;
+			color: #FFFFFF;
+			border: none;
+			padding: 10px 20px;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+
+		input[type="submit"]:hover {
+			background-color: #007FFF;
+		}
+	</style>
 </head>
 <body>
-    <h1>Anime Form</h1>
-    <form method="POST" action="/predict">
-    
-        <label for="Title">Title</label>
-        <input type="text" name="Title" id="Title"><br>
-    
-        <label for="Genre">Genre</label>
-        <input type="text" name="Genre" id="Genre"><br>
-    
-        <label for="Synopsis">Synopsis</label>
-        <input type="text" name="Synopsis" id="Synopsis"><br>
-    
-        <label for="Type">Type</label>
-        <input type="text" name="Type" id="Type"><br>
-    
-        <label for="Producer">Producer</label>
-        <input type="text" name="Producer" id="Producer"><br>
-    
-        <label for="Studio">Studio</label>
-        <input type="text" name="Studio" id="Studio"><br>
-    
-        <input type="submit" value="Predict">
-    </form>
+	<div class="container">
+		<form method="POST" action="/predict">
+			<label for="Title">Title:</label>
+			<input type="text" name="Title" id="Title"><br>
+
+			<label for="Genre">Genre:</label>
+			<input type="text" name="Genre" id="Genre"><br>
+
+			<label for="Synopsis">Synopsis:</label>
+			<textarea id="Synopsis" name="Synopsis" rows="5" required></textarea>
+
+			<label for="Type">Type:</label>
+			<input type="text" name="Type" id="Type"><br>
+
+			<label for="Producer">Producer:</label>
+			<input type="text" name="Producer" id="Producer"><br>
+
+			<label for="Studio">Studio:</label>
+			<input type="text" name="Studio" id="Studio"><br>
+
+			<input type="submit" value="Predict">
+		</form>
+	</div>
 </body>
 </html>
-
-
