@@ -1,0 +1,4 @@
+Flask==2.2.3
+pandas==1.5.3
+prometheus_client==0.16.0
+scikit_learn==1.2.1
