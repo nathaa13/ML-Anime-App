@@ -3,8 +3,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
-#from prometheus_flask_exporter import PrometheusMetrics
-from prometheus_client import start_http_server, Summary, Counter, Info, make_wsgi_app
+from prometheus_flask_exporter import PrometheusMetrics
+#from prometheus_client import start_http_server, Summary, Counter, Info, make_wsgi_app
 import time
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.ensemble import GradientBoostingRegressor
@@ -12,12 +12,13 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 
 
 app = Flask(__name__)
-wsgi_app = make_wsgi_app()
-#metrics = PrometheusMetrics(app)
+#wsgi_app = make_wsgi_app()
+
 
 # Define some metrics
-REQUEST_COUNT = Counter('request_count', 'Total HTTP Requests', ['method', 'endpoint', 'http_status'])
-REQUEST_LATENCY = Summary('request_latency_ms', 'Request latency in milliseconds', ['method', 'endpoint', 'http_status'])
+#REQUEST_COUNT = Counter('request_count', 'Total HTTP Requests', ['method', 'endpoint', 'http_status'])
+#REQUEST_LATENCY = Summary('request_latency_ms', 'Request latency in milliseconds', ['method', 'endpoint', 'http_status'])
+metrics = PrometheusMetrics(app)
 
 
 df = pd.read_csv(r"Anime_data.csv")
@@ -61,6 +62,8 @@ def model_pred(Title, Genre, Synopsis, Type, Producer, Studio):
 
 
 @app.route('/', methods=['GET'])
+@metrics.counter('requests_counted', 'Number of HTTP requests processed by the application')
+
 def index():
     return render_template('index.html')
 
@@ -82,6 +85,7 @@ def predict():
     #return render_template('resultat.html', rating=jsonify({'rating':  Title + "404"}))
 
 
+"""
 # Add some middleware to measure the request metrics
 @app.before_request
 def before_request():
@@ -94,7 +98,10 @@ def after_request(response):
     REQUEST_LATENCY.labels(request.method, request.path, response.status_code).observe(latency)
     return response
 
-
+"""
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',debug=True)
+
+from prometheus_client import multiprocess
+multiprocess.MultiProcessCollector(metrics.registry)
